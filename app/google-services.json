@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "921464312527",
+    "project_id": "influencify-7d97c",
+    "storage_bucket": "influencify-7d97c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921464312527:android:4711008fc2a1a0ad3addba",
+        "android_client_info": {
+          "package_name": "com.example.influencify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6V1InPqR6J7q5-Oe0cDwzAaLvMwS2F-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
