@@ -34,6 +34,9 @@ fun AddAdScreen() {
     val description = remember {
         mutableStateOf("")
     }
+    val price = remember {
+        mutableStateOf("")
+    }
 
 
     Image(
@@ -83,6 +86,14 @@ fun AddAdScreen() {
             label = "Description",
         ) {
             description.value = it
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+
+        RoundedCornerTextField(
+            text = price.value,
+            label = "Price",
+        ) {
+            price.value = it
         }
 
         Spacer(modifier = Modifier.height(10.dp))
