@@ -100,27 +100,6 @@ fun LoginScreen(
             passwordState.value = it
         }
         Spacer(modifier = Modifier.height(10.dp))
-
-        LoginButton(
-            text = "Sign Up",
-            onClick = {
-                signUp(
-                    auth,
-                    emailState.value,
-                    passwordState.value,
-                    onSignUpSuccess = {navData ->
-                        onNavigateToMainScreen(navData)
-                        e = emailState.value
-                        Log.d("My Log", "Sign Up Successful!")
-                    },
-                    onSignUpFailure = { error ->
-                        Log.d("My Log", "Sign Up Failure!: $error")
-                        errorState.value = error
-                    }
-                )
-
-            })
-        Spacer(modifier = Modifier.height(10.dp))
         if (errorState.value.isNotEmpty()) {
             Text(
                 text = errorState.value,
@@ -131,10 +110,6 @@ fun LoginScreen(
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "_______or______",
-            style = textTypography1.bodyLarge
-        )
         Spacer(modifier = Modifier.height(10.dp))
 
 
@@ -152,6 +127,31 @@ fun LoginScreen(
                     },
                     onSignInFailure = { error ->
                         Log.d("My Log", "Sign In Failure!: $error")
+                        errorState.value = error
+                    }
+                )
+
+            })
+        Text(
+            text = "_______or______",
+            style = textTypography1.bodyLarge
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+
+        LoginButton(
+            text = "Sign Up",
+            onClick = {
+                signUp(
+                    auth,
+                    emailState.value,
+                    passwordState.value,
+                    onSignUpSuccess = {navData ->
+                        onNavigateToMainScreen(navData)
+                        e = emailState.value
+                        Log.d("My Log", "Sign Up Successful!")
+                    },
+                    onSignUpFailure = { error ->
+                        Log.d("My Log", "Sign Up Failure!: $error")
                         errorState.value = error
                     }
                 )

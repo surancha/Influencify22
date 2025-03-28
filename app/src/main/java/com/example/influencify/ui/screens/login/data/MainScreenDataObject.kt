@@ -8,3 +8,4 @@ data class MainScreenDataObject(
     val uid : String = "",
     val email : String = "",
 )
+
