@@ -23,8 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImagePainter
 import com.example.influencify.R
+import com.example.influencify.ui.screens.login.data.MainScreenDataObject
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -38,7 +38,9 @@ fun Checker() {
 }
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    onNavigateToMainScreen: (MainScreenDataObject) -> Unit
+) {
     val textTypography1 = Typography(
         bodyLarge = TextStyle(
 
@@ -47,6 +49,7 @@ fun LoginScreen() {
             color = Color.Gray
         )
     )
+    var e = ""
     val auth = Firebase.auth
     val fs = Firebase.firestore
     val errorState = remember {
@@ -105,7 +108,9 @@ fun LoginScreen() {
                     auth,
                     emailState.value,
                     passwordState.value,
-                    onSignUpSuccess = {
+                    onSignUpSuccess = {navData ->
+                        onNavigateToMainScreen(navData)
+                        e = emailState.value
                         Log.d("My Log", "Sign Up Successful!")
                     },
                     onSignUpFailure = { error ->
@@ -140,7 +145,9 @@ fun LoginScreen() {
                     auth,
                     emailState.value,
                     passwordState.value,
-                    onSignInSuccess = {
+                    onSignInSuccess = { navData ->
+                        onNavigateToMainScreen(navData)
+
                         Log.d("My Log", "Sign In Successful!")
                     },
                     onSignInFailure = { error ->
@@ -160,7 +167,7 @@ fun signUp(
     auth: FirebaseAuth,
     email: String,
     password: String,
-    onSignUpSuccess: () -> Unit,
+    onSignUpSuccess: (MainScreenDataObject) -> Unit,
     onSignUpFailure: (String) -> Unit
 ) {
     if (email.isBlank() || password.isBlank()) {
@@ -169,7 +176,14 @@ fun signUp(
     }
     auth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
-            if (task.isSuccessful) onSignUpSuccess()
+            if (task.isSuccessful) {
+                onSignUpSuccess(
+                    MainScreenDataObject(
+                        task.result.user?.uid!!,
+                        task.result.user?.email!!,
+                    )
+                )
+            }
         }
         .addOnFailureListener {
             onSignUpFailure(it.message ?: "Sign up error")
@@ -181,7 +195,7 @@ fun signIn(
     auth: FirebaseAuth,
     email: String,
     password: String,
-    onSignInSuccess: () -> Unit,
+    onSignInSuccess: (MainScreenDataObject) -> Unit,
     onSignInFailure: (String) -> Unit
 ) {
     if (email.isBlank() || password.isBlank()) {
@@ -190,7 +204,14 @@ fun signIn(
     }
     auth.signInWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
-            if (task.isSuccessful) onSignInSuccess()
+            if (task.isSuccessful) {
+                onSignInSuccess(
+                    MainScreenDataObject(
+                        task.result.user?.uid!!,
+                        task.result.user?.email!!,
+                    )
+                )
+            }
         }
         .addOnFailureListener {
             onSignInFailure(it.message ?: "Sign up error")

@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.gms)
+    alias(libs.plugins.plugin.serialization)
+
+
 }
 
 android {
@@ -47,6 +50,9 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 
 
     implementation(libs.androidx.core.ktx)
