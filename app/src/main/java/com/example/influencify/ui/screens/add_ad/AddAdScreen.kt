@@ -64,7 +64,7 @@ fun AddAdScreen() {
             contentDescription = "lg",
             modifier = Modifier.size(200.dp)
         )
-        Text(text = "Add new book",
+        Text(text = "Add your ad",
             color = Color.Black,
             fontWeight = FontWeight.Bold,
             fontSize = 40.sp,)
@@ -81,6 +81,8 @@ fun AddAdScreen() {
         Spacer(modifier = Modifier.height(10.dp))
 
         RoundedCornerTextField(
+            maxLines = 5,
+            singleLine = false,
             text = description.value,
             label = "Description",
         ) {
