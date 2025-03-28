@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
         val fs = Firebase.firestore
         val auth = Firebase.auth
         setContent {
+            Checker()
             AddAdScreen()
 //            val navController = rememberNavController()
 //            NavHost(
