@@ -50,12 +50,12 @@ class MainActivity : ComponentActivity() {
 
                 composable<MainScreenDataObject>{navEntery->
                     val navData = navEntery.toRoute<MainScreenDataObject>()
-                    MainScreen()
+                    MainScreen(navData)
                 }
 
-                composable<MainScreenDataObject>{navEntery->
-                    AddAdScreen()
-                }
+//                composable<MainScreenDataObject>{navEntery->
+//                    AddAdScreen()
+//                }
 
 
             }

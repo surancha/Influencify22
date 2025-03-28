@@ -8,19 +8,20 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.influencify.ui.screens.login.data.MainScreenDataObject
 import com.example.influencify.ui.screens.main.bottom_menu.BottomMenu
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreen(){
+fun MainScreen(navData: MainScreenDataObject){
     ModalNavigationDrawer(
         modifier = Modifier.fillMaxWidth(),
         drawerContent = {
             Column(
                 modifier = Modifier.fillMaxWidth(0.7f)
             ) {
-                DrawerHeader()
+                DrawerHeader(navData.email)
                 DrawerBody()
             }
 
@@ -29,7 +30,9 @@ fun MainScreen(){
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
-            bottomBar = { BottomMenu()}
+            bottomBar = {
+                BottomMenu()
+            }
         ) {
 
         }
