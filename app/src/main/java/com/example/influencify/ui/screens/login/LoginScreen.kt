@@ -49,7 +49,6 @@ fun LoginScreen(
             color = Color.Gray
         )
     )
-    var e = ""
     val auth = Firebase.auth
     val fs = Firebase.firestore
     val errorState = remember {
@@ -147,7 +146,6 @@ fun LoginScreen(
                     passwordState.value,
                     onSignUpSuccess = {navData ->
                         onNavigateToMainScreen(navData)
-                        e = emailState.value
                         Log.d("My Log", "Sign Up Successful!")
                     },
                     onSignUpFailure = { error ->
