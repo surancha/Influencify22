@@ -1,6 +1,7 @@
 package com.example.influencify.ui.screens.main
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ModalNavigationDrawer
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.influencify.ui.screens.main.bottom_menu.BottomMenu
 import com.example.influencify.ui.screens.main.bottom_menu.BottomMenuItem
+import com.example.influencify.ui.screens.main.bottom_menu.DrawerBody
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -17,8 +19,13 @@ fun MainScreen(){
     ModalNavigationDrawer(
         modifier = Modifier.fillMaxWidth(),
         drawerContent = {
-            DrawerHeader(
-            )
+            Column(
+                modifier = Modifier.fillMaxWidth(0.7f)
+            ) {
+                DrawerHeader()
+                DrawerBody()
+            }
+
 
         }
     ) {
