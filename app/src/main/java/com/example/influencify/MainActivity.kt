@@ -34,27 +34,31 @@ class MainActivity : ComponentActivity() {
         val fs = Firebase.firestore
         val auth = Firebase.auth
         setContent {
-            Checker()
-            AddAdScreen()
-//            val navController = rememberNavController()
-//            NavHost(
-//                navController = navController,
-//                startDestination = LoginScreenObject
-//            ){
-//                composable<LoginScreenObject>{
-//                    LoginScreen(){ navData ->
-//                        navController.navigate(navData)
-//
-//                    }
-//                }
-//
-//                composable<MainScreenDataObject>{navEntery->
-//                    val navData = navEntery.toRoute<MainScreenDataObject>()
-//                    MainScreen()
-//                }
-//
-//
-//            }
+//            Checker()
+//            AddAdScreen()
+            val navController = rememberNavController()
+            NavHost(
+                navController = navController,
+                startDestination = LoginScreenObject
+            ){
+                composable<LoginScreenObject>{
+                    LoginScreen(){ navData ->
+                        navController.navigate(navData)
+
+                    }
+                }
+
+                composable<MainScreenDataObject>{navEntery->
+                    val navData = navEntery.toRoute<MainScreenDataObject>()
+                    MainScreen()
+                }
+
+                composable<MainScreenDataObject>{navEntery->
+                    AddAdScreen()
+                }
+
+
+            }
 
 
         }

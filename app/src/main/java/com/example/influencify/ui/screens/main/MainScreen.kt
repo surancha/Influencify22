@@ -9,8 +9,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.influencify.ui.screens.main.bottom_menu.BottomMenu
-import com.example.influencify.ui.screens.main.bottom_menu.BottomMenuItem
-import com.example.influencify.ui.screens.main.bottom_menu.DrawerBody
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

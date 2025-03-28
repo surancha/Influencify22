@@ -212,7 +212,7 @@ fun signIn(
             }
         }
         .addOnFailureListener {
-            onSignInFailure(it.message ?: "Sign up error")
+            onSignInFailure(it.message ?: "Sign In error")
         }
 
 }
