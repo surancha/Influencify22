@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.example.influencify.R
 import com.example.influencify.ui.screens.login.LoginButton
 import com.example.influencify.ui.screens.login.RoundedCornerTextField
+import com.example.influencify.ui.theme.MyGray
 
 
 @Composable
@@ -31,7 +32,7 @@ fun AddAdScreen() {
         mutableStateOf("")
     }
     val description = remember {
-        mutableStateOf("1234567890")
+        mutableStateOf("")
     }
 
 
@@ -62,16 +63,15 @@ fun AddAdScreen() {
         Spacer(modifier = Modifier.height(40.dp))
 
         Text(text = "Add new book",
-            color = Color.White,
+            color = Color.Black,
             fontWeight = FontWeight.Bold,
-            fontSize = 30.sp,
-            fontFamily = FontFamily.Serif)
+            fontSize = 40.sp,)
 
         Spacer(modifier = Modifier.height(10.dp))
 
         RoundedCornerTextField(
             text = title.value,
-            label = "Email",
+            label = "Title",
         ) {
             title.value = it
         }
@@ -80,7 +80,7 @@ fun AddAdScreen() {
 
         RoundedCornerTextField(
             text = description.value,
-            label = "Password",
+            label = "Description",
         ) {
             description.value = it
         }

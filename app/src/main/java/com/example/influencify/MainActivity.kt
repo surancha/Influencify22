@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.influencify.ui.screens.add_ad.AddAdScreen
 import com.example.influencify.ui.screens.login.Checker
 import com.example.influencify.ui.screens.login.LoginScreen
 import com.example.influencify.ui.screens.login.PasswordScreen
@@ -33,25 +34,26 @@ class MainActivity : ComponentActivity() {
         val fs = Firebase.firestore
         val auth = Firebase.auth
         setContent {
-            val navController = rememberNavController()
-            NavHost(
-                navController = navController,
-                startDestination = LoginScreenObject
-            ){
-                composable<LoginScreenObject>{
-                    LoginScreen(){ navData ->
-                        navController.navigate(navData)
-
-                    }
-                }
-
-                composable<MainScreenDataObject>{navEntery->
-                    val navData = navEntery.toRoute<MainScreenDataObject>()
-                    MainScreen()
-                }
-
-
-            }
+            AddAdScreen()
+//            val navController = rememberNavController()
+//            NavHost(
+//                navController = navController,
+//                startDestination = LoginScreenObject
+//            ){
+//                composable<LoginScreenObject>{
+//                    LoginScreen(){ navData ->
+//                        navController.navigate(navData)
+//
+//                    }
+//                }
+//
+//                composable<MainScreenDataObject>{navEntery->
+//                    val navData = navEntery.toRoute<MainScreenDataObject>()
+//                    MainScreen()
+//                }
+//
+//
+//            }
 
 
         }
