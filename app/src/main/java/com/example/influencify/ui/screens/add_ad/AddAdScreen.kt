@@ -45,7 +45,8 @@ fun AddAdScreen() {
         ),
         contentDescription = "BG",
         modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop
+        contentScale = ContentScale.Crop,
+        alpha = 0.4f
     )
 
     Column(
