@@ -17,6 +17,8 @@ fun MainScreen(){
     ModalNavigationDrawer(
         modifier = Modifier.fillMaxWidth(),
         drawerContent = {
+            DrawerHeader(
+            )
 
         }
     ) {

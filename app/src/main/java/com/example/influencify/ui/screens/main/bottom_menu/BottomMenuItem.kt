@@ -21,6 +21,12 @@ sealed class BottomMenuItem(
             iconId = R.drawable.ic_search
     )
 
+    object Add : BottomMenuItem(
+            route = "",
+            title = "Add",
+            iconId = R.drawable.ic_add
+    )
+
     object Profile : BottomMenuItem(
             route = "",
             title = "Profile",

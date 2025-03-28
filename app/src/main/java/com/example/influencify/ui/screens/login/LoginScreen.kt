@@ -56,10 +56,10 @@ fun LoginScreen(
         mutableStateOf("")
     }
     val emailState = remember {
-        mutableStateOf("")
+        mutableStateOf("stepanyanruben31@gmail.com")
     }
     val passwordState = remember {
-        mutableStateOf("")
+        mutableStateOf("1234567890")
     }
     Image(
         painter = painterResource(
