@@ -24,12 +24,12 @@ import com.example.influencify.ui.theme.MyGray
 @Composable
 fun DrawerHeader(email:String) {
     Column(
-        Modifier.fillMaxWidth().height(170.dp).background(MyGray),
+        Modifier.fillMaxWidth().height(200.dp).background(MyGray),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            modifier = Modifier.size(150.dp),
+            modifier = Modifier.size(180.dp),
             painter = painterResource(R.drawable.logo3 ),
             contentDescription = "Logo"
         )
