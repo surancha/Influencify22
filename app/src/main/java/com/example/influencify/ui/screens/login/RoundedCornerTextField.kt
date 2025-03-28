@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun RoundedCornerTextField(
+    singleLine: Boolean = true,
     text: String,
     label: String,
     onValueChange: (String) -> Unit
@@ -40,7 +41,7 @@ fun RoundedCornerTextField(
         label = {
             Text(text = label, color = Color.Gray)
         },
-        singleLine = true
+        singleLine = singleLine
 
     )
 }

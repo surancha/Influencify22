@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.influencify.ui.screens.add_ad.AddAdScreen
+import com.example.influencify.ui.screens.add_ad.data.AddScreenObject
 import com.example.influencify.ui.screens.login.Checker
 import com.example.influencify.ui.screens.login.LoginScreen
 import com.example.influencify.ui.screens.login.PasswordScreen
@@ -35,11 +36,10 @@ class MainActivity : ComponentActivity() {
         val auth = Firebase.auth
         setContent {
 //            Checker()
-//            AddAdScreen()
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = LoginScreenObject
+                startDestination = AddScreenObject
             ){
                 composable<LoginScreenObject>{
                     LoginScreen(){ navData ->
@@ -53,9 +53,9 @@ class MainActivity : ComponentActivity() {
                     MainScreen(navData)
                 }
 
-//                composable<MainScreenDataObject>{navEntery->
-//                    AddAdScreen()
-//                }
+                composable<AddScreenObject>{navEntery->
+                    AddAdScreen()
+                }
 
 
             }
