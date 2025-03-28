@@ -70,6 +70,10 @@ fun AddAdScreen() {
             fontSize = 40.sp,)
 
         Spacer(modifier = Modifier.height(10.dp))
+        RoundedCornerDropDownManu { selectedItem->
+
+        }
+        Spacer(modifier = Modifier.height(10.dp))
 
         RoundedCornerTextField(
             text = title.value,
