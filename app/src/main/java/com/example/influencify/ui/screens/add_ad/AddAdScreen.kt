@@ -21,22 +21,34 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.fragment.app.Fragment.SavedState
 import com.example.influencify.R
+import com.example.influencify.data.Ad
 import com.example.influencify.ui.screens.login.LoginButton
 import com.example.influencify.ui.screens.login.RoundedCornerTextField
 import com.example.influencify.ui.theme.MyGray
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 @Composable
 fun AddAdScreen() {
+    var selectedPlatform = "Instagram"
     val title = remember {
         mutableStateOf("")
     }
     val description = remember {
         mutableStateOf("")
     }
+    val urLink = remember {
+        mutableStateOf("")
+    }
     val price = remember {
         mutableStateOf("")
+    }
+    val firestore = remember {
+        Firebase.firestore
     }
 
 
@@ -71,7 +83,7 @@ fun AddAdScreen() {
 
         Spacer(modifier = Modifier.height(10.dp))
         RoundedCornerDropDownManu { selectedItem->
-
+            selectedPlatform = selectedItem
         }
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -95,29 +107,69 @@ fun AddAdScreen() {
         Spacer(modifier = Modifier.height(10.dp))
 
         RoundedCornerTextField(
+            text = urLink.value,
+            label = "URL",
+        ) {
+            urLink.value = it
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+
+        RoundedCornerTextField(
             text = price.value,
             label = "Price",
         ) {
             price.value = it
         }
 
-        Spacer(modifier = Modifier.height(10.dp))
+//        Spacer(modifier = Modifier.height(10.dp))
 
-        LoginButton(
-            text = "Select Image",
-            onClick = {
-
-            })
+//        LoginButton(
+//            text = "Select Image",
+//            onClick = {
+//
+//            })
 
         Spacer(modifier = Modifier.height(10.dp))
 
         LoginButton(
             text = "Save",
             onClick = {
-
-
+                saveBookToFireStore(
+                    firestore,
+                    Ad(
+                        title = title.value,
+                        description = description.value,
+                        price = price.value,
+                        urLink = urLink.value,
+                        platform = selectedPlatform
+                    ),
+                    onSaved = {
+                    },
+                    onError = {})
             })
-
-
     }
+}
+private fun saveBookToFireStore(
+    firestore: FirebaseFirestore,
+    ad: Ad,
+    onSaved: () -> Unit,
+    onError: () -> Unit,
+){
+    val db = firestore.collection("ads")
+    val key = db.document().id
+    db.document(key)
+        .set(
+            ad.copy(
+                key = key,
+            )
+        )
+        .addOnSuccessListener {
+            onSaved()
+        }
+        .addOnFailureListener{
+            onError()
+        }
+
 }

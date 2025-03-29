@@ -29,7 +29,7 @@ fun RoundedCornerDropDownManu(
     onOptionSelected: (String) -> Unit
 ) {
     val expanded = remember { mutableStateOf( false) }
-    val selectedOption = remember { mutableStateOf("Choose Platform") }
+    val selectedOption = remember { mutableStateOf("Instagram") }
     val platformList = listOf(
         "Instagram",
         "Tiktok",
@@ -40,8 +40,8 @@ fun RoundedCornerDropDownManu(
         modifier = Modifier
             .fillMaxWidth()
             .border(
-                width = 1.dp,
-                color = MyGray,
+                width = 2.dp,
+                color = Color.Gray,
                 shape = RoundedCornerShape(25.dp)
 
             )
