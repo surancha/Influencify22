@@ -23,12 +23,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.influencify.R
+import com.example.influencify.ui.screens.login.data.MainScreenDataObject
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 @Composable
 fun SignUpScreen(
-//    onBackToLogin: () -> Unit
+    onBackToLogin: () -> Unit,
+    onNavigateToMainScreen: (MainScreenDataObject) -> Unit = {} // Optional navigation callback
 ) {
     val textTypography1 = Typography(
         bodyLarge = TextStyle(
@@ -94,8 +96,8 @@ fun SignUpScreen(
                     auth,
                     emailState.value,
                     passwordState.value,
-                    onSignUpSuccess = {
-                        // Handle successful sign up (e.g., navigate to main screen)
+                    onSignUpSuccess = { navData ->
+                        onNavigateToMainScreen(navData) // Navigate to MainScreen on success
                     },
                     onSignUpFailure = { error ->
                         errorState.value = error
@@ -117,9 +119,9 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
         LoginButton(
-            text = "Back to Login",
+            text = "Back",
             onClick = {
-//                onBackToLogin
+                onBackToLogin()
             }
         )
     }

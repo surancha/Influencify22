@@ -24,12 +24,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.influencify.R
+import com.example.influencify.ui.screens.login.data.LoginScreenObject
 import com.example.influencify.ui.screens.login.data.MainScreenDataObject
+import com.example.influencify.ui.screens.login.data.SignUpScreenObject
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-
 
 @Composable
 fun Checker() {
@@ -39,11 +40,10 @@ fun Checker() {
 
 @Composable
 fun LoginScreen(
-    onNavigateToMainScreen: (MainScreenDataObject) -> Unit
+    onNavigate: (Any) -> Unit // Changed to Any to handle multiple navigation targets
 ) {
     val textTypography1 = Typography(
         bodyLarge = TextStyle(
-
             fontWeight = FontWeight.Normal,
             fontSize = 25.sp,
             color = Color.Gray
@@ -51,19 +51,12 @@ fun LoginScreen(
     )
     val auth = Firebase.auth
     val fs = Firebase.firestore
-    val errorState = remember {
-        mutableStateOf("")
-    }
-    val emailState = remember {
-        mutableStateOf("stepanyanruben31@gmail.com")
-    }
-    val passwordState = remember {
-        mutableStateOf("1234567890")
-    }
+    val errorState = remember { mutableStateOf("") }
+    val emailState = remember { mutableStateOf("stepanyanruben31@gmail.com") }
+    val passwordState = remember { mutableStateOf("1234567890") }
+
     Image(
-        painter = painterResource(
-            id = R.drawable.backgraund1
-        ),
+        painter = painterResource(id = R.drawable.backgraund1),
         contentDescription = "BG",
         modifier = Modifier.fillMaxSize(),
         contentScale = ContentScale.Crop
@@ -72,16 +65,13 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                start = 25.dp, end = 25.dp
-            ),
+            .padding(start = 25.dp, end = 25.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(
-                id = R.drawable.logo2
-            ), contentDescription = "lg"
+            painter = painterResource(id = R.drawable.logo2),
+            contentDescription = "lg"
         )
         Spacer(modifier = Modifier.height(40.dp))
         RoundedCornerTextField(
@@ -109,8 +99,6 @@ fun LoginScreen(
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
-        Spacer(modifier = Modifier.height(10.dp))
-
 
         LoginButton(
             text = "Sign In",
@@ -120,8 +108,7 @@ fun LoginScreen(
                     emailState.value,
                     passwordState.value,
                     onSignInSuccess = { navData ->
-                        onNavigateToMainScreen(navData)
-
+                        onNavigate(navData)
                         Log.d("My Log", "Sign In Successful!")
                     },
                     onSignInFailure = { error ->
@@ -129,8 +116,8 @@ fun LoginScreen(
                         errorState.value = error
                     }
                 )
-
-            })
+            }
+        )
         Text(
             text = "_______or______",
             style = textTypography1.bodyLarge
@@ -140,26 +127,11 @@ fun LoginScreen(
         LoginButton(
             text = "Sign Up",
             onClick = {
-                signUp(
-                    auth,
-                    emailState.value,
-                    passwordState.value,
-                    onSignUpSuccess = {navData ->
-                        onNavigateToMainScreen(navData)
-                        Log.d("My Log", "Sign Up Successful!")
-                    },
-                    onSignUpFailure = { error ->
-                        Log.d("My Log", "Sign Up Failure!: $error")
-                        errorState.value = error
-                    }
-                )
-
-            })
-
-
+                onNavigate(SignUpScreenObject) // Navigate to SignUpScreen
+            }
+        )
     }
 }
-
 
 fun signUp(
     auth: FirebaseAuth,
@@ -186,7 +158,6 @@ fun signUp(
         .addOnFailureListener {
             onSignUpFailure(it.message ?: "Sign up error")
         }
-
 }
 
 fun signIn(
@@ -214,5 +185,4 @@ fun signIn(
         .addOnFailureListener {
             onSignInFailure(it.message ?: "Sign In error")
         }
-
 }
