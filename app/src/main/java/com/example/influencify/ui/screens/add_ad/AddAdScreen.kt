@@ -17,45 +17,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.Fragment.SavedState
+import androidx.navigation.NavController
 import com.example.influencify.R
 import com.example.influencify.data.Ad
 import com.example.influencify.ui.screens.login.LoginButton
 import com.example.influencify.ui.screens.login.RoundedCornerTextField
-import com.example.influencify.ui.theme.MyGray
+import com.example.influencify.ui.screens.login.data.MainScreenDataObject
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-
 @Composable
-fun AddAdScreen() {
+fun AddAdScreen(
+    navController: NavController, // Add NavController
+    navData: MainScreenDataObject // Add MainScreenDataObject to navigate back
+) {
     var selectedPlatform = "Instagram"
-    val title = remember {
-        mutableStateOf("")
-    }
-    val description = remember {
-        mutableStateOf("")
-    }
-    val urLink = remember {
-        mutableStateOf("")
-    }
-    val price = remember {
-        mutableStateOf("")
-    }
-    val firestore = remember {
-        Firebase.firestore
-    }
-
+    val title = remember { mutableStateOf("") }
+    val description = remember { mutableStateOf("") }
+    val urLink = remember { mutableStateOf("") }
+    val price = remember { mutableStateOf("") }
+    val firestore = remember { Firebase.firestore }
 
     Image(
-        painter = painterResource(
-            id = R.drawable.backgraund1
-        ),
+        painter = painterResource(id = R.drawable.backgraund1),
         contentDescription = "BG",
         modifier = Modifier.fillMaxSize(),
         contentScale = ContentScale.Crop,
@@ -65,9 +53,7 @@ fun AddAdScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                start = 25.dp, end = 25.dp
-            ),
+            .padding(start = 25.dp, end = 25.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -76,20 +62,22 @@ fun AddAdScreen() {
             contentDescription = "lg",
             modifier = Modifier.size(200.dp)
         )
-        Text(text = "Add your ad",
+        Text(
+            text = "Add your ad",
             color = Color.Black,
             fontWeight = FontWeight.Bold,
-            fontSize = 40.sp,)
+            fontSize = 40.sp
+        )
 
         Spacer(modifier = Modifier.height(10.dp))
-        RoundedCornerDropDownManu { selectedItem->
+        RoundedCornerDropDownManu { selectedItem ->
             selectedPlatform = selectedItem
         }
         Spacer(modifier = Modifier.height(10.dp))
 
         RoundedCornerTextField(
             text = title.value,
-            label = "Title",
+            label = "Title"
         ) {
             title.value = it
         }
@@ -100,7 +88,7 @@ fun AddAdScreen() {
             maxLines = 5,
             singleLine = false,
             text = description.value,
-            label = "Description",
+            label = "Description"
         ) {
             description.value = it
         }
@@ -108,28 +96,19 @@ fun AddAdScreen() {
 
         RoundedCornerTextField(
             text = urLink.value,
-            label = "URL",
+            label = "URL"
         ) {
             urLink.value = it
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
-
         RoundedCornerTextField(
             text = price.value,
-            label = "Price",
+            label = "Price"
         ) {
             price.value = it
         }
-
-//        Spacer(modifier = Modifier.height(10.dp))
-
-//        LoginButton(
-//            text = "Select Image",
-//            onClick = {
-//
-//            })
 
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -146,30 +125,37 @@ fun AddAdScreen() {
                         platform = selectedPlatform
                     ),
                     onSaved = {
+                        // Navigate back to MainScreen with navData
+                        navController.navigate(navData) {
+                            popUpTo(navController.graph.startDestinationId) {
+                                inclusive = false
+                            }
+                            launchSingleTop = true
+                        }
                     },
-                    onError = {})
-            })
+                    onError = {
+                        // Optionally handle error (e.g., show a message)
+                    }
+                )
+            }
+        )
     }
 }
+
 private fun saveBookToFireStore(
     firestore: FirebaseFirestore,
     ad: Ad,
     onSaved: () -> Unit,
-    onError: () -> Unit,
-){
+    onError: () -> Unit
+) {
     val db = firestore.collection("ads")
     val key = db.document().id
     db.document(key)
-        .set(
-            ad.copy(
-                key = key,
-            )
-        )
+        .set(ad.copy(key = key))
         .addOnSuccessListener {
             onSaved()
         }
-        .addOnFailureListener{
+        .addOnFailureListener {
             onError()
         }
-
 }

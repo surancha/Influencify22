@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.influencify.ui.screens.add_ad.AddAdScreen
 import com.example.influencify.ui.screens.add_ad.data.AddScreenObject
-import com.example.influencify.ui.screens.login.Checker
 import com.example.influencify.ui.screens.login.LoginScreen
 import com.example.influencify.ui.screens.login.SignUpScreen
 import com.example.influencify.ui.screens.login.data.LoginScreenObject
@@ -41,11 +40,18 @@ class MainActivity : ComponentActivity() {
                     val navData = navEntry.toRoute<MainScreenDataObject>()
                     MainScreen(
                         navData = navData,
-                        navController = navController // Pass NavController
+                        navController = navController
                     )
                 }
                 composable<AddScreenObject> {
-                    AddAdScreen()
+                    // Get the previous MainScreenDataObject from the back stack
+                    val navData = navController.previousBackStackEntry
+                        ?.toRoute<MainScreenDataObject>()
+                        ?: MainScreenDataObject("", "") // Fallback (shouldn't happen in normal flow)
+                    AddAdScreen(
+                        navController = navController,
+                        navData = navData
+                    )
                 }
                 composable<SignUpScreenObject> {
                     SignUpScreen(
@@ -57,8 +63,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
 
 
 //package com.example.influencify
