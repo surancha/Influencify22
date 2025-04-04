@@ -1,5 +1,6 @@
 package com.example.influencify.ui.screens.add_ad
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil3.compose.AsyncImagePainter
+import coil3.compose.rememberAsyncImagePainter
 import com.example.influencify.R
 import com.example.influencify.data.Ad
 import com.example.influencify.ui.screens.login.LoginButton
@@ -30,6 +33,8 @@ import com.example.influencify.ui.screens.login.data.MainScreenDataObject
 import com.example.influencify.ui.screens.main.bottom_menu.BottomMenu
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.google.firebase.ktx.Firebase
 
 @Composable
@@ -37,12 +42,31 @@ fun AddAdScreen(
     navController: NavController,
     navData: MainScreenDataObject
 ) {
-    var selectedPlatform = "Instagram"
-    val title = remember { mutableStateOf("") }
-    val description = remember { mutableStateOf("") }
-    val urLink = remember { mutableStateOf("") }
-    val price = remember { mutableStateOf("") }
-    val firestore = remember { Firebase.firestore }
+    var selectedPlatform = ""
+
+    val title = remember {
+        mutableStateOf("")
+    }
+
+    val description = remember {
+        mutableStateOf("")
+    }
+
+    val urLink = remember {
+        mutableStateOf("")
+    }
+
+    val price = remember {
+        mutableStateOf("")
+    }
+
+    val firestore = remember {
+        Firebase.firestore
+    }
+
+    val selectedImageUri = remember {
+        mutableStateOf<Uri?>(null)
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -55,7 +79,7 @@ fun AddAdScreen(
             contentDescription = "BG",
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
-            alpha = 0.4f
+            alpha = 0.2f
         )
 
         Column(
@@ -67,7 +91,11 @@ fun AddAdScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.logo2),
+                painter = if (selectedImageUri.value != null) {
+                    rememberAsyncImagePainter(model = selectedImageUri.value)
+                } else {
+                    painterResource(id = R.drawable.defoldimg)
+                },
                 contentDescription = "lg",
                 modifier = Modifier.size(200.dp)
             )

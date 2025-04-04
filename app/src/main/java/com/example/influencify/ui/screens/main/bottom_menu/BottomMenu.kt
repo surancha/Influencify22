@@ -1,12 +1,17 @@
 package com.example.influencify.ui.screens.main.bottom_menu
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -23,15 +28,21 @@ fun BottomMenu(navController: NavController) {
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+        val selectedItem = remember { mutableStateOf("Home") }
 
         menuItems.forEach { item ->
             NavigationBarItem(
-                icon = { Icon(painterResource(id = item.iconId), contentDescription = item.title) },
-                label = { Text(item.title) },
+                icon = {
+                    Icon(
+                        painterResource(id = item.iconId),
+                        contentDescription = null,
+                        modifier = Modifier.height(50.dp))
+                       },
+
                 selected = currentRoute == item.route.toString(), // Convert route to string for comparison
                 onClick = {
+                    selectedItem.value = item.title
                     navController.navigate(item.route) {
-                        // Avoid stacking multiple instances of the same screen
                         popUpTo(navController.graph.startDestinationId) {
                             saveState = true
                         }
