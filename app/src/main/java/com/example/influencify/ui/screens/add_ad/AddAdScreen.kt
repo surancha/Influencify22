@@ -1,6 +1,8 @@
 package com.example.influencify.ui.screens.add_ad
 
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -66,6 +68,13 @@ fun AddAdScreen(
 
     val selectedImageUri = remember {
         mutableStateOf<Uri?>(null)
+    }
+
+    val imageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {
+        uri ->
+        selectedImageUri.value = uri
     }
 
     Scaffold(
@@ -146,6 +155,14 @@ fun AddAdScreen(
             ) {
                 price.value = it
             }
+            Spacer(modifier = Modifier.height(10.dp))
+
+            LoginButton(
+                text = "Select Image",
+                onClick = {
+                    imageLauncher.launch("image/*")
+                }
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
 
