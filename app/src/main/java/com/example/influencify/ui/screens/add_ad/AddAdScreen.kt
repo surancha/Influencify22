@@ -25,7 +25,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import com.example.influencify.R
 import com.example.influencify.data.Ad
@@ -36,8 +35,8 @@ import com.example.influencify.ui.screens.main.bottom_menu.BottomMenu
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 @Composable
 fun AddAdScreen(
@@ -64,6 +63,9 @@ fun AddAdScreen(
 
     val firestore = remember {
         Firebase.firestore
+    }
+    val storage = remember {
+        Firebase.storage
     }
 
     val selectedImageUri = remember {
@@ -169,7 +171,9 @@ fun AddAdScreen(
             LoginButton(
                 text = "Save",
                 onClick = {
-                    saveAdToFireStore(
+                    saveAdImage(
+                        selectedImageUri.value!!,
+                        storage,
                         firestore,
                         Ad(
                             title = title.value,
@@ -195,13 +199,39 @@ fun AddAdScreen(
 }
 private fun saveAdImage(
     uri: Uri,
-    storage: FirebaseStorage
+    storage: FirebaseStorage,
+    firestore: FirebaseFirestore,
+    ad: Ad,
+    onSaved: () -> Unit,
+    onError: () -> Unit
 ) {
-    val storageRef = storage.reference.child("ad_images/${uri.lastPathSegment}")
+    val timeStamp = System.currentTimeMillis()
+    val storageRef = storage.reference
+        .child("ad_images")
+        .child("image-$timeStamp.jpg")
+    val uploadTask = storageRef.putFile(uri)
+    uploadTask.addOnSuccessListener {
+        storageRef.downloadUrl.addOnSuccessListener { url ->
+            saveAdToFireStore(
+                firestore,
+                url.toString(),
+                ad,
+                onSaved = {
+                    onSaved()
+                },
+                onError = {
+                    onError()
+                }
+
+
+            )
+        }
+    }
 }
 
 private fun saveAdToFireStore(
     firestore: FirebaseFirestore,
+    url: String,
     ad: Ad,
     onSaved: () -> Unit,
     onError: () -> Unit
@@ -209,7 +239,11 @@ private fun saveAdToFireStore(
     val db = firestore.collection("ads")
     val key = db.document().id
     db.document(key)
-        .set(ad.copy(key = key))
+        .set(
+            ad.copy(
+                key = key,
+                imageUrl = url)
+        )
         .addOnSuccessListener {
             onSaved()
         }

@@ -7,5 +7,5 @@ data class Ad(
     val price: String = "",
     val platform: String = "",
     val urLink: String = "",
-    val url: String = ""
+    val imageUrl: String = ""
 )
