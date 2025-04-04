@@ -169,7 +169,7 @@ fun AddAdScreen(
             LoginButton(
                 text = "Save",
                 onClick = {
-                    saveBookToFireStore(
+                    saveAdToFireStore(
                         firestore,
                         Ad(
                             title = title.value,
@@ -193,8 +193,14 @@ fun AddAdScreen(
         }
     }
 }
+private fun saveAdImage(
+    uri: Uri,
+    storage: FirebaseStorage
+) {
+    val storageRef = storage.reference.child("ad_images/${uri.lastPathSegment}")
+}
 
-private fun saveBookToFireStore(
+private fun saveAdToFireStore(
     firestore: FirebaseFirestore,
     ad: Ad,
     onSaved: () -> Unit,
