@@ -74,8 +74,7 @@ fun AddAdScreen(
 
     val imageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ) {
-        uri ->
+    ) { uri ->
         selectedImageUri.value = uri
     }
 
@@ -197,6 +196,7 @@ fun AddAdScreen(
         }
     }
 }
+
 private fun saveAdImage(
     uri: Uri,
     storage: FirebaseStorage,
@@ -242,7 +242,8 @@ private fun saveAdToFireStore(
         .set(
             ad.copy(
                 key = key,
-                imageUrl = url)
+                imageUrl = url
+            )
         )
         .addOnSuccessListener {
             onSaved()

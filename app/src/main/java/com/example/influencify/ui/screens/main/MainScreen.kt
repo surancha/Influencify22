@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -35,7 +39,11 @@ fun MainScreen(
                 BottomMenu(navController = navController) // Pass NavController
             }
         ) {
-            // Add content here if needed (e.g., Home screen by default)
+            LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+                items(11){
+                    AdListItemUi()
+                }
+            }
         }
     }
 }

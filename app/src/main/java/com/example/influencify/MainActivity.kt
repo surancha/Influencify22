@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = AddScreenObject
+                startDestination = LoginScreenObject
             ) {
                 composable<LoginScreenObject> {
                     LoginScreen { navData ->
@@ -47,7 +47,10 @@ class MainActivity : ComponentActivity() {
                     // Get the previous MainScreenDataObject from the back stack
                     val navData = navController.previousBackStackEntry
                         ?.toRoute<MainScreenDataObject>()
-                        ?: MainScreenDataObject("", "") // Fallback (shouldn't happen in normal flow)
+                        ?: MainScreenDataObject(
+                            "",
+                            ""
+                        ) // Fallback (shouldn't happen in normal flow)
                     AddAdScreen(
                         navController = navController,
                         navData = navData
