@@ -52,7 +52,7 @@ fun MainScreen(
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
-                BottomMenu(navController = navController, uid = navData.uid) // Pass uid
+                BottomMenu(navController = navController, navData = navData)
             }
         ) { paddingValues ->
             LazyColumn(

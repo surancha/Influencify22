@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import com.example.influencify.data.Ad
 import com.example.influencify.data.Favorite
 import com.example.influencify.ui.screens.favorites.data.FavoritesScreenObject
+import com.example.influencify.ui.screens.login.data.MainScreenDataObject
 import com.example.influencify.ui.screens.main.AdListItemUi
 import com.example.influencify.ui.screens.main.bottom_menu.BottomMenu
 import com.example.influencify.ui.screens.main.getAllAds
@@ -42,7 +43,10 @@ fun FavoritesScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            BottomMenu(navController = navController)
+            BottomMenu(
+                navController = navController,
+                navData = MainScreenDataObject(uid = navData.uid, email = "")
+            )
         }
     ) { paddingValues ->
         LazyColumn(
