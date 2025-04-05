@@ -1,16 +1,11 @@
 package com.example.influencify.ui.screens.main
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -32,20 +27,17 @@ fun MainScreen(
     navData: MainScreenDataObject,
     navController: NavController
 ) {
-    val adsListState = remember {
-        mutableStateOf(emptyList<Ad>())
-    }
+    val adsListState = remember { mutableStateOf(emptyList<Ad>()) }
+    val db = remember { Firebase.firestore }
 
-    val db = remember {
-        Firebase.firestore
-    }
     LaunchedEffect(Unit) {
-        getAllFavoritesIds(db, navData.uid){ favs->
+        getAllFavoritesIds(db, navData.uid) { favs ->
             getAllAds(db, favs) { ads ->
                 adsListState.value = ads
             }
         }
     }
+
     ModalNavigationDrawer(
         modifier = Modifier.fillMaxWidth(),
         drawerContent = {
@@ -60,13 +52,13 @@ fun MainScreen(
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
-                BottomMenu(navController = navController) // Pass NavController
+                BottomMenu(navController = navController, uid = navData.uid) // Pass uid
             }
-        ) { paddingVales ->
+        ) { paddingValues ->
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingVales)
+                    .padding(paddingValues)
             ) {
                 items(adsListState.value) { ad ->
                     AdListItemUi(
@@ -102,18 +94,16 @@ private fun getAllAds(
         .get()
         .addOnSuccessListener { task ->
             val adsList = task.toObjects(Ad::class.java).map {
-                if (idsList.contains(it.key)){
+                if (idsList.contains(it.key)) {
                     it.copy(isFavorite = true)
-                }else{
+                } else {
                     it
                 }
             }
             onAds(adsList)
         }
-        .addOnFailureListener {
-        }
+        .addOnFailureListener {}
 }
-
 
 private fun getAllFavoritesIds(
     db: FirebaseFirestore,
@@ -132,10 +122,8 @@ private fun getAllFavoritesIds(
             }
             onFavorites(keysList)
         }
-        .addOnFailureListener {
-        }
+        .addOnFailureListener {}
 }
-
 
 private fun onFavorites(
     db: FirebaseFirestore,
@@ -157,46 +145,3 @@ private fun onFavorites(
             .delete()
     }
 }
-
-
-//package com.example.influencify.ui.screens.main
-//
-//import android.annotation.SuppressLint
-//import androidx.compose.foundation.layout.Column
-//import androidx.compose.foundation.layout.fillMaxSize
-//import androidx.compose.foundation.layout.fillMaxWidth
-//import androidx.compose.material3.ModalNavigationDrawer
-//import androidx.compose.material3.Scaffold
-//import androidx.compose.runtime.Composable
-//import androidx.compose.ui.Modifier
-//import com.example.influencify.ui.screens.login.data.MainScreenDataObject
-//import com.example.influencify.ui.screens.main.bottom_menu.BottomMenu
-//
-//
-//@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-//@Composable
-//fun MainScreen(navData: MainScreenDataObject){
-//    ModalNavigationDrawer(
-//        modifier = Modifier.fillMaxWidth(),
-//        drawerContent = {
-//            Column(
-//                modifier = Modifier.fillMaxWidth(0.7f)
-//            ) {
-//                DrawerHeader(navData.email)
-//                DrawerBody()
-//            }
-//
-//
-//        }
-//    ) {
-//        Scaffold(
-//            modifier = Modifier.fillMaxSize(),
-//            bottomBar = {
-//                BottomMenu()
-//            }
-//        ) {
-//
-//        }
-//    }
-//
-//}

@@ -47,32 +47,13 @@ fun AddAdScreen(
 ) {
     var selectedPlatform = ""
 
-    val title = remember {
-        mutableStateOf("")
-    }
-
-    val description = remember {
-        mutableStateOf("")
-    }
-
-    val urLink = remember {
-        mutableStateOf("")
-    }
-
-    val price = remember {
-        mutableStateOf("")
-    }
-
-    val firestore = remember {
-        Firebase.firestore
-    }
-    val storage = remember {
-        Firebase.storage
-    }
-
-    val selectedImageUri = remember {
-        mutableStateOf<Uri?>(null)
-    }
+    val title = remember { mutableStateOf("") }
+    val description = remember { mutableStateOf("") }
+    val urLink = remember { mutableStateOf("") }
+    val price = remember { mutableStateOf("") }
+    val firestore = remember { Firebase.firestore }
+    val storage = remember { Firebase.storage }
+    val selectedImageUri = remember { mutableStateOf<Uri?>(null) }
 
     val imageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -83,7 +64,7 @@ fun AddAdScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            BottomMenu(navController = navController) // Add BottomMenu here
+            BottomMenu(navController = navController, uid = navData.uid) // Pass uid
         }
     ) { paddingValues ->
         Image(
@@ -97,7 +78,7 @@ fun AddAdScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues) // Respect Scaffold padding
+                .padding(paddingValues)
                 .padding(start = 25.dp, end = 25.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -111,7 +92,7 @@ fun AddAdScreen(
                 contentDescription = "lg",
                 modifier = Modifier
                     .size(200.dp)
-                    .clip(RoundedCornerShape(15))
+                    .clip(RoundedCornerShape(15.dp))
             )
             Text(
                 text = "Add your ad",
@@ -220,14 +201,8 @@ private fun saveAdImage(
                 firestore,
                 url.toString(),
                 ad,
-                onSaved = {
-                    onSaved()
-                },
-                onError = {
-                    onError()
-                }
-
-
+                onSaved = { onSaved() },
+                onError = { onError() }
             )
         }
     }

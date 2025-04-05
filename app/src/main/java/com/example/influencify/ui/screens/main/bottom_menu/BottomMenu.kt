@@ -21,8 +21,8 @@ fun BottomMenu(navController: NavController) {
         BottomMenuItem.Home,
         BottomMenuItem.Search,
         BottomMenuItem.Add,
-        BottomMenuItem.Profile,
-        BottomMenuItem.Favs
+        BottomMenuItem.Favs,
+        BottomMenuItem.Profile
     )
 
     NavigationBar {
