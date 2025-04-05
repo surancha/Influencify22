@@ -1,6 +1,7 @@
 package com.example.influencify.ui.screens.main
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.influencify.R
 import com.example.influencify.data.Ad
@@ -34,12 +36,16 @@ import com.example.influencify.data.Ad
 @Composable
 fun AdListItemUi(
     ad: Ad,
+    navController: NavController,
     onFavClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .clickable {
+                navController.navigate("adDetail/${ad.key}") // Navigate with ad key as part of the route
+            }
     ) {
         Row() {
             AsyncImage(
@@ -54,7 +60,6 @@ fun AdListItemUi(
             Column(
                 modifier = Modifier.padding(horizontal = 20.dp)
             ) {
-
                 Text(
                     text = ad.title,
                     color = Color.Black,

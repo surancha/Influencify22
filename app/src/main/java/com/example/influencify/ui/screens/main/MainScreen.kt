@@ -28,27 +28,24 @@ fun MainScreen(
     navController: NavController
 ) {
     val adsListState = remember { mutableStateOf(emptyList<Ad>()) }
-    val filteredAdsListState = remember { mutableStateOf(emptyList<Ad>()) } // State for filtered ads
-    val selectedPlatform = remember { mutableStateOf("All") } // State to track selected platform
+    val filteredAdsListState = remember { mutableStateOf(emptyList<Ad>()) }
+    val selectedPlatform = remember { mutableStateOf("All") }
     val db = remember { Firebase.firestore }
 
-    // Fetch ads and favorites when the screen loads
     LaunchedEffect(Unit) {
         getAllFavoritesIds(db, navData.uid) { favs ->
             getAllAds(db, favs) { ads ->
                 adsListState.value = ads
-                // Initially show all ads
                 filteredAdsListState.value = ads
             }
         }
     }
 
-    // Update filtered ads whenever the selected platform changes
     LaunchedEffect(selectedPlatform.value) {
         filteredAdsListState.value = if (selectedPlatform.value == "All") {
-            adsListState.value // Show all ads
+            adsListState.value
         } else {
-            adsListState.value.filter { it.platform == selectedPlatform.value } // Filter by platform
+            adsListState.value.filter { it.platform == selectedPlatform.value }
         }
     }
 
@@ -61,7 +58,7 @@ fun MainScreen(
                 DrawerHeader(navData.email)
                 DrawerBody(
                     onPlatformSelected = { platform ->
-                        selectedPlatform.value = platform // Update selected platform
+                        selectedPlatform.value = platform
                     }
                 )
             }
@@ -80,7 +77,8 @@ fun MainScreen(
             ) {
                 items(filteredAdsListState.value) { ad ->
                     AdListItemUi(
-                        ad,
+                        ad = ad,
+                        navController = navController,
                         onFavClick = {
                             adsListState.value = adsListState.value.map {
                                 if (it.key == ad.key) {
@@ -95,7 +93,6 @@ fun MainScreen(
                                     it
                                 }
                             }
-                            // Reapply filter after updating favorites
                             filteredAdsListState.value = if (selectedPlatform.value == "All") {
                                 adsListState.value
                             } else {

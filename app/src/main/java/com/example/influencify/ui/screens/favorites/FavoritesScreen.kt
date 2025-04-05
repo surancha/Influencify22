@@ -34,7 +34,6 @@ fun FavoritesScreen(
     LaunchedEffect(Unit) {
         getAllFavoritesIds(db, navData.uid) { favs ->
             getAllAds(db, favs) { ads ->
-                // Filter ads to only show favorites
                 adsListState.value = ads.filter { it.isFavorite }
             }
         }
@@ -56,7 +55,8 @@ fun FavoritesScreen(
         ) {
             items(adsListState.value) { ad ->
                 AdListItemUi(
-                    ad,
+                    ad = ad,
+                    navController = navController,
                     onFavClick = {
                         adsListState.value = adsListState.value.map {
                             if (it.key == ad.key) {

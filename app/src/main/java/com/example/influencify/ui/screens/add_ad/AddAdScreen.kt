@@ -45,12 +45,12 @@ fun AddAdScreen(
     navController: NavController,
     navData: MainScreenDataObject
 ) {
-    var selectedPlatform = ""
-
+    val selectedPlatform = remember { mutableStateOf("") } // Track selected platform
     val title = remember { mutableStateOf("") }
     val description = remember { mutableStateOf("") }
     val urLink = remember { mutableStateOf("") }
     val price = remember { mutableStateOf("") }
+    val errorMessage = remember { mutableStateOf("") } // For validation feedback
     val firestore = remember { Firebase.firestore }
     val storage = remember { Firebase.storage }
     val selectedImageUri = remember { mutableStateOf<Uri?>(null) }
@@ -89,7 +89,7 @@ fun AddAdScreen(
                 } else {
                     painterResource(id = R.drawable.defoldimg)
                 },
-                contentDescription = "lg",
+                contentDescription = "Ad Image",
                 modifier = Modifier
                     .size(200.dp)
                     .clip(RoundedCornerShape(15.dp))
@@ -103,7 +103,7 @@ fun AddAdScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
             RoundedCornerDropDownManu { selectedItem ->
-                selectedPlatform = selectedItem
+                selectedPlatform.value = selectedItem
             }
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -113,7 +113,6 @@ fun AddAdScreen(
             ) {
                 title.value = it
             }
-
             Spacer(modifier = Modifier.height(10.dp))
 
             RoundedCornerTextField(
@@ -132,7 +131,6 @@ fun AddAdScreen(
             ) {
                 urLink.value = it
             }
-
             Spacer(modifier = Modifier.height(10.dp))
 
             RoundedCornerTextField(
@@ -149,33 +147,57 @@ fun AddAdScreen(
                     imageLauncher.launch("image/*")
                 }
             )
-
             Spacer(modifier = Modifier.height(10.dp))
+
+            // Display error message if validation fails
+            if (errorMessage.value.isNotEmpty()) {
+                Text(
+                    text = errorMessage.value,
+                    color = Color.Red,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
 
             LoginButton(
                 text = "Save",
                 onClick = {
-                    saveAdImage(
-                        selectedImageUri.value!!,
-                        storage,
-                        firestore,
-                        Ad(
-                            title = title.value,
-                            description = description.value,
-                            price = price.value,
-                            urLink = urLink.value,
-                            platform = selectedPlatform
-                        ),
-                        onSaved = {
-                            navController.navigate(navData) {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    inclusive = false
+                    // Validation checks
+                    when {
+                        title.value.isBlank() -> errorMessage.value = "Title is required"
+                        description.value.isBlank() -> errorMessage.value = "Description is required"
+                        urLink.value.isBlank() -> errorMessage.value = "URL is required"
+                        price.value.isBlank() -> errorMessage.value = "Price is required"
+                        selectedPlatform.value.isEmpty() -> errorMessage.value = "Please select a platform"
+                        selectedImageUri.value == null -> errorMessage.value = "Please upload an image"
+                        else -> {
+                            errorMessage.value = "" // Clear error if all fields are valid
+                            saveAdImage(
+                                selectedImageUri.value!!,
+                                storage,
+                                firestore,
+                                Ad(
+                                    title = title.value,
+                                    description = description.value,
+                                    price = price.value,
+                                    urLink = urLink.value,
+                                    platform = selectedPlatform.value
+                                ),
+                                onSaved = {
+                                    navController.navigate(navData) {
+                                        popUpTo(navController.graph.startDestinationId) {
+                                            inclusive = false
+                                        }
+                                        launchSingleTop = true
+                                    }
+                                },
+                                onError = {
+                                    errorMessage.value = "Failed to save ad"
                                 }
-                                launchSingleTop = true
-                            }
-                        },
-                        onError = {}
-                    )
+                            )
+                        }
+                    }
                 }
             )
         }
@@ -205,6 +227,8 @@ private fun saveAdImage(
                 onError = { onError() }
             )
         }
+    }.addOnFailureListener {
+        onError()
     }
 }
 

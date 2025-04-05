@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.influencify.ui.screens.add_ad.AddAdScreen
 import com.example.influencify.ui.screens.add_ad.data.AddScreenObject
+import com.example.influencify.ui.screens.ad_detail.AdDetailScreen
 import com.example.influencify.ui.screens.favorites.FavoritesScreen
 import com.example.influencify.ui.screens.favorites.data.FavoritesScreenObject
 import com.example.influencify.ui.screens.login.LoginScreen
@@ -64,6 +65,13 @@ class MainActivity : ComponentActivity() {
                     val navData = navEntry.toRoute<FavoritesScreenObject>()
                     FavoritesScreen(
                         navData = navData,
+                        navController = navController
+                    )
+                }
+                composable("adDetail/{adKey}") { backStackEntry ->
+                    val adKey = backStackEntry.arguments?.getString("adKey") ?: ""
+                    AdDetailScreen(
+                        adKey = adKey,
                         navController = navController
                     )
                 }
