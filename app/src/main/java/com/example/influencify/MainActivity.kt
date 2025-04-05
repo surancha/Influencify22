@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                         ?: MainScreenDataObject(
                             "",
                             ""
-                        ) // Fallback (shouldn't happen in normal flow)
+                        )
                     AddAdScreen(
                         navController = navController,
                         navData = navData

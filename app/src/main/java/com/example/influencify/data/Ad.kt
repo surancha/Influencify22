@@ -7,5 +7,6 @@ data class Ad(
     val price: String = "",
     val platform: String = "",
     val urLink: String = "",
-    val imageUrl: String = ""
+    val imageUrl: String = "",
+    val isFavorite: Boolean = false
 )

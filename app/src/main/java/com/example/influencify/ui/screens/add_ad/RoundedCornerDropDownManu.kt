@@ -38,7 +38,7 @@ fun RoundedCornerDropDownManu(
     )
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(0.4f)
             .border(
                 width = 2.dp,
                 color = Color.Gray,
