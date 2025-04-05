@@ -1,6 +1,5 @@
 package com.example.influencify.ui.screens.main
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,9 +25,10 @@ import androidx.compose.ui.unit.sp
 import com.example.influencify.R
 import com.example.influencify.ui.theme.MyGrayL
 
-
 @Composable
-fun DrawerBody() {
+fun DrawerBody(
+    onPlatformSelected: (String) -> Unit // Callback to notify MainScreen of platform selection
+) {
     val platformList = listOf(
         "Instagram",
         "Tiktok",
@@ -38,15 +38,16 @@ fun DrawerBody() {
     )
 
     Box(
-        modifier = Modifier.fillMaxSize().background(color = Color.Gray)
-    ){
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color.Gray)
+    ) {
         Image(
             modifier = Modifier.fillMaxSize(),
             painter = painterResource(R.drawable.backgraund2),
             contentDescription = "",
             alpha = 0.2f,
             contentScale = ContentScale.Crop
-
         )
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -61,11 +62,14 @@ fun DrawerBody() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(MyGrayL))
-            LazyColumn(Modifier.fillMaxSize(),){
-                items(platformList){ item->
+            LazyColumn(Modifier.fillMaxSize()) {
+                items(platformList) { item ->
                     Column(
-                        modifier = Modifier.fillMaxWidth().clickable {  }
-
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onPlatformSelected(item) // Notify MainScreen of the selected platform
+                            }
                     ) {
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
@@ -79,10 +83,7 @@ fun DrawerBody() {
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Box(modifier = Modifier.fillMaxWidth().height(1.dp).background(MyGrayL))
-
-
                     }
-
                 }
             }
         }
