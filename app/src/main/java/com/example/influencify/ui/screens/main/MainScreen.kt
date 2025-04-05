@@ -85,7 +85,7 @@ fun MainScreen(
     }
 }
 
-private fun getAllAds(
+fun getAllAds(
     db: FirebaseFirestore,
     idsList: List<String>,
     onAds: (List<Ad>) -> Unit
@@ -105,7 +105,7 @@ private fun getAllAds(
         .addOnFailureListener {}
 }
 
-private fun getAllFavoritesIds(
+fun getAllFavoritesIds(
     db: FirebaseFirestore,
     uid: String,
     onFavorites: (List<String>) -> Unit
@@ -125,7 +125,7 @@ private fun getAllFavoritesIds(
         .addOnFailureListener {}
 }
 
-private fun onFavorites(
+fun onFavorites(
     db: FirebaseFirestore,
     uid: String,
     favorite: Favorite,
