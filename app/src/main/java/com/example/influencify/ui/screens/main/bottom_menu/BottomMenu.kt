@@ -14,8 +14,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.influencify.ui.screens.add_ad.AddAdScreen
+import com.example.influencify.ui.screens.add_ad.data.AddScreenObject
 import com.example.influencify.ui.screens.favorites.data.FavoritesScreenObject
 import com.example.influencify.ui.screens.login.data.MainScreenDataObject
+import com.example.influencify.ui.screens.profile.data.ProfileScreenObject
 
 @Composable
 fun BottomMenu(navController: NavController, navData: MainScreenDataObject) {
@@ -47,7 +50,9 @@ fun BottomMenu(navController: NavController, navData: MainScreenDataObject) {
                     val route = when (item) {
                         is BottomMenuItem.Home -> navData // Navigate to MainScreen
                         is BottomMenuItem.Favs -> FavoritesScreenObject(navData.uid) // Navigate to FavoritesScreen
-                        else -> item.route // Use the item's route for Add, Search, Profile
+                        is BottomMenuItem.Add -> AddScreenObject
+                        is BottomMenuItem.Profile -> ProfileScreenObject(navData.uid) // Navigate to ProfileScreen
+                        else -> item.route // Use the item's route for Search
                     }
                     navController.navigate(route) {
                         popUpTo(navController.graph.startDestinationId) {

@@ -1,15 +1,12 @@
-package com.example.influencify.ui.screens.ad_detail
+package com.example.influencify.ui.screens.details
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -67,7 +64,7 @@ fun AdDetailScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(text = "Ad Details") },
+                title = {},
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(

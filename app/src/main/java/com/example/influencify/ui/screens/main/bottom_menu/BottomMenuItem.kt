@@ -2,6 +2,7 @@ package com.example.influencify.ui.screens.main.bottom_menu
 
 import com.example.influencify.R
 import com.example.influencify.ui.screens.add_ad.data.AddScreenObject
+import com.example.influencify.ui.screens.profile.data.ProfileScreenObject
 
 sealed class BottomMenuItem(
     val route: Any,
@@ -27,7 +28,7 @@ sealed class BottomMenuItem(
     )
 
     object Profile : BottomMenuItem(
-        route = "profile",
+        route = "profile_placeholder", // Will be replaced with ProfileScreenObject
         title = "Profile",
         iconId = R.drawable.ic_profile
     )

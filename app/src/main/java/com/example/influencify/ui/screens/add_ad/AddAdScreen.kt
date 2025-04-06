@@ -172,7 +172,7 @@ fun AddAdScreen(
                         selectedPlatform.value.isEmpty() -> errorMessage.value = "Please select a platform"
                         selectedImageUri.value == null -> errorMessage.value = "Please upload an image"
                         else -> {
-                            errorMessage.value = "" // Clear error if all fields are valid
+                            errorMessage.value = ""
                             saveAdImage(
                                 selectedImageUri.value!!,
                                 storage,

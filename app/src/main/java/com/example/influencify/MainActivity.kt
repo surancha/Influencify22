@@ -3,14 +3,13 @@ package com.example.influencify
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.influencify.ui.screens.add_ad.AddAdScreen
 import com.example.influencify.ui.screens.add_ad.data.AddScreenObject
-import com.example.influencify.ui.screens.ad_detail.AdDetailScreen
+import com.example.influencify.ui.screens.details.AdDetailScreen
 import com.example.influencify.ui.screens.favorites.FavoritesScreen
 import com.example.influencify.ui.screens.favorites.data.FavoritesScreenObject
 import com.example.influencify.ui.screens.login.LoginScreen
@@ -19,6 +18,8 @@ import com.example.influencify.ui.screens.login.data.LoginScreenObject
 import com.example.influencify.ui.screens.login.data.MainScreenDataObject
 import com.example.influencify.ui.screens.login.data.SignUpScreenObject
 import com.example.influencify.ui.screens.main.MainScreen
+import com.example.influencify.ui.screens.profile.ProfileScreen
+import com.example.influencify.ui.screens.profile.data.ProfileScreenObject
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -64,6 +65,13 @@ class MainActivity : ComponentActivity() {
                 composable<FavoritesScreenObject> { navEntry ->
                     val navData = navEntry.toRoute<FavoritesScreenObject>()
                     FavoritesScreen(
+                        navData = navData,
+                        navController = navController
+                    )
+                }
+                composable<ProfileScreenObject> { navEntry ->
+                    val navData = navEntry.toRoute<ProfileScreenObject>()
+                    ProfileScreen(
                         navData = navData,
                         navController = navController
                     )
