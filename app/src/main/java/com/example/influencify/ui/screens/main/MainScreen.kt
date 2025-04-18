@@ -6,13 +6,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.influencify.data.Ad
 import com.example.influencify.data.Favorite
@@ -22,6 +29,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navData: MainScreenDataObject,
@@ -30,6 +39,7 @@ fun MainScreen(
     val adsListState = remember { mutableStateOf(emptyList<Ad>()) }
     val filteredAdsListState = remember { mutableStateOf(emptyList<Ad>()) }
     val selectedPlatform = remember { mutableStateOf("All") }
+    val searchQuery = remember { mutableStateOf("") }
     val db = remember { Firebase.firestore }
 
     LaunchedEffect(Unit) {
@@ -41,11 +51,13 @@ fun MainScreen(
         }
     }
 
-    LaunchedEffect(selectedPlatform.value) {
-        filteredAdsListState.value = if (selectedPlatform.value == "All") {
-            adsListState.value
-        } else {
-            adsListState.value.filter { it.platform == selectedPlatform.value }
+    LaunchedEffect(selectedPlatform.value, searchQuery.value) {
+        filteredAdsListState.value = adsListState.value.filter { ad ->
+            val matchesPlatform = selectedPlatform.value == "All" || ad.platform == selectedPlatform.value
+            val matchesSearch = searchQuery.value.isEmpty() ||
+                    ad.title.contains(searchQuery.value, ignoreCase = true) ||
+                    ad.description.contains(searchQuery.value, ignoreCase = true)
+            matchesPlatform && matchesSearch
         }
     }
 
@@ -66,46 +78,79 @@ fun MainScreen(
     ) {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
+            topBar = {
+                SearchBar(
+                    query = searchQuery.value,
+                    onQueryChange = { searchQuery.value = it },
+                    onSearch = { /* Выполняется при нажатии "Поиск" на клавиатуре, можно оставить пустым */ },
+                    active = false, // Не используем расширенный режим с предложениями
+                    onActiveChange = { /* Не требуется для простого поиска */ },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    placeholder = { Text("Search ads...") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search"
+                        )
+                    }
+                ) {}
+            },
             bottomBar = {
                 BottomMenu(navController = navController, navData = navData)
             }
         ) { paddingValues ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                items(filteredAdsListState.value) { ad ->
-                    AdListItemUi(
-                        ad = ad,
-                        navController = navController,
-                        onFavClick = {
-                            adsListState.value = adsListState.value.map {
-                                if (it.key == ad.key) {
-                                    onFavorites(
-                                        db,
-                                        navData.uid,
-                                        Favorite(it.key),
-                                        !it.isFavorite
-                                    )
-                                    it.copy(isFavorite = !it.isFavorite)
-                                } else {
-                                    it
+            if (filteredAdsListState.value.isEmpty()) {
+                Text(
+                    text = if (searchQuery.value.isEmpty()) "No ads available" else "No ads match your search",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(16.dp),
+                    style = androidx.compose.material3.MaterialTheme.typography.bodyLarge,
+                    color = androidx.compose.material3.MaterialTheme.colorScheme.onSurface
+                )
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                ) {
+                    items(filteredAdsListState.value) { ad ->
+                        AdListItemUi(
+                            ad = ad,
+                            navController = navController,
+                            onFavClick = {
+                                adsListState.value = adsListState.value.map {
+                                    if (it.key == ad.key) {
+                                        onFavorites(
+                                            db,
+                                            navData.uid,
+                                            Favorite(it.key),
+                                            !it.isFavorite
+                                        )
+                                        it.copy(isFavorite = !it.isFavorite)
+                                    } else {
+                                        it
+                                    }
+                                }
+                                // Обновляем отфильтрованный список
+                                filteredAdsListState.value = adsListState.value.filter { filteredAd ->
+                                    val matchesPlatform = selectedPlatform.value == "All" || filteredAd.platform == selectedPlatform.value
+                                    val matchesSearch = searchQuery.value.isEmpty() ||
+                                            filteredAd.title.contains(searchQuery.value, ignoreCase = true) ||
+                                            filteredAd.description.contains(searchQuery.value, ignoreCase = true)
+                                    matchesPlatform && matchesSearch
                                 }
                             }
-                            filteredAdsListState.value = if (selectedPlatform.value == "All") {
-                                adsListState.value
-                            } else {
-                                adsListState.value.filter { it.platform == selectedPlatform.value }
-                            }
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }
     }
 }
-
 fun getAllAds(
     db: FirebaseFirestore,
     idsList: List<String>,
