@@ -8,5 +8,6 @@ data class Ad(
     val platform: String = "",
     val urLink: String = "",
     val imageUrl: String = "",
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val creatorUid: String = ""
 )

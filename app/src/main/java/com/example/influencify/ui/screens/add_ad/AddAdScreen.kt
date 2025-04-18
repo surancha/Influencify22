@@ -34,6 +34,7 @@ import com.example.influencify.ui.screens.login.LoginButton
 import com.example.influencify.ui.screens.login.RoundedCornerTextField
 import com.example.influencify.ui.screens.login.data.MainScreenDataObject
 import com.example.influencify.ui.screens.main.bottom_menu.BottomMenu
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.storage.FirebaseStorage
@@ -54,6 +55,7 @@ fun AddAdScreen(
     val firestore = remember { Firebase.firestore }
     val storage = remember { Firebase.storage }
     val selectedImageUri = remember { mutableStateOf<Uri?>(null) }
+    val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     val imageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -102,7 +104,7 @@ fun AddAdScreen(
             )
 
             Spacer(modifier = Modifier.height(10.dp))
-            RoundedCornerDropDownManu { selectedItem ->
+            RoundedCornerDropDownMеnu { selectedItem ->
                 selectedPlatform.value = selectedItem
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -171,6 +173,7 @@ fun AddAdScreen(
                         price.value.isBlank() -> errorMessage.value = "Price is required"
                         selectedPlatform.value.isEmpty() -> errorMessage.value = "Please select a platform"
                         selectedImageUri.value == null -> errorMessage.value = "Please upload an image"
+                        currentUserUid.isBlank() -> errorMessage.value = "User not authenticated"
                         else -> {
                             errorMessage.value = ""
                             saveAdImage(
@@ -182,7 +185,8 @@ fun AddAdScreen(
                                     description = description.value,
                                     price = price.value,
                                     urLink = urLink.value,
-                                    platform = selectedPlatform.value
+                                    platform = selectedPlatform.value,
+                                    creatorUid = currentUserUid
                                 ),
                                 onSaved = {
                                     navController.navigate(navData) {
@@ -245,7 +249,8 @@ private fun saveAdToFireStore(
         .set(
             ad.copy(
                 key = key,
-                imageUrl = url
+                imageUrl = url,
+                creatorUid = ad.creatorUid
             )
         )
         .addOnSuccessListener {

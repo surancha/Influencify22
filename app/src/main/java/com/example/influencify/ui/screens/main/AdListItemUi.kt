@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -62,11 +63,17 @@ fun AdListItemUi(
             ) {
                 Text(
                     text = ad.title,
-                    color = Color.Black,
+                    style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold,
-                    fontSize = 20.sp,
                     maxLines = 1
                 )
+//                Text(
+//                    text = ad.title,
+//                    color = Color.Black,
+//                    fontWeight = FontWeight.ExtraBold,
+//                    fontSize = 20.sp,
+//                    maxLines = 1
+//                )
 
                 Spacer(modifier = Modifier.height(5.dp))
 
