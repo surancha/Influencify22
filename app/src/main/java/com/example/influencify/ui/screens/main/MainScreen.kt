@@ -82,13 +82,13 @@ fun MainScreen(
                 SearchBar(
                     query = searchQuery.value,
                     onQueryChange = { searchQuery.value = it },
-                    onSearch = { /* Выполняется при нажатии "Поиск" на клавиатуре, можно оставить пустым */ },
-                    active = false, // Не используем расширенный режим с предложениями
-                    onActiveChange = { /* Не требуется для простого поиска */ },
+                    onSearch = {},
+                    active = false,
+                    onActiveChange = {},
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
-                    placeholder = { Text("Search ads...") },
+                    placeholder = { Text("Search") },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Search,
@@ -135,7 +135,6 @@ fun MainScreen(
                                         it
                                     }
                                 }
-                                // Обновляем отфильтрованный список
                                 filteredAdsListState.value = adsListState.value.filter { filteredAd ->
                                     val matchesPlatform = selectedPlatform.value == "All" || filteredAd.platform == selectedPlatform.value
                                     val matchesSearch = searchQuery.value.isEmpty() ||
