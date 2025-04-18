@@ -1,6 +1,7 @@
 package com.example.influencify.ui.screens.main.bottom_menu
 
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -30,7 +31,9 @@ fun BottomMenu(navController: NavController, navData: MainScreenDataObject) {
         BottomMenuItem.Profile
     )
 
-    NavigationBar {
+    NavigationBar(
+        modifier = Modifier.height(80.dp)
+    ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         val selectedItem = remember { mutableStateOf("Home") }
@@ -41,7 +44,7 @@ fun BottomMenu(navController: NavController, navData: MainScreenDataObject) {
                     Icon(
                         painterResource(id = item.iconId),
                         contentDescription = null,
-                        modifier = Modifier.height(50.dp)
+                        modifier = Modifier.size(27.dp)
                     )
                 },
                 selected = currentRoute == item.route.toString(),
