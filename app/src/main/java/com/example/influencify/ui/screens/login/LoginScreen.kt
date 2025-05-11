@@ -24,7 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.influencify.R
-import com.example.influencify.ui.screens.login.data.LoginScreenObject
 import com.example.influencify.ui.screens.login.data.MainScreenDataObject
 import com.example.influencify.ui.screens.login.data.SignUpScreenObject
 import com.google.firebase.auth.FirebaseAuth

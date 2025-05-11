@@ -168,14 +168,7 @@ fun AdDetailScreen(
                     fontSize = 16.sp
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
 
-                // Display favorite status
-                Text(
-                    text = "Favorite: ${if (ad!!.isFavorite) "Yes" else "No"}",
-                    color = Color.Black,
-                    fontSize = 16.sp
-                )
             } else {
                 Text(
                     text = "Loading...",
