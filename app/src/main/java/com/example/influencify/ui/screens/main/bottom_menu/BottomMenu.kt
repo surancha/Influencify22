@@ -25,9 +25,9 @@ import com.example.influencify.ui.screens.profile.data.ProfileScreenObject
 fun BottomMenu(navController: NavController, navData: MainScreenDataObject) {
     val menuItems = listOf(
         BottomMenuItem.Home,
-        BottomMenuItem.Search,
-        BottomMenuItem.Add,
         BottomMenuItem.Favs,
+        BottomMenuItem.Add,
+        BottomMenuItem.Messages,
         BottomMenuItem.Profile
     )
 

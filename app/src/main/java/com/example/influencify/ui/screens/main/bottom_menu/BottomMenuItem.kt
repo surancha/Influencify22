@@ -2,7 +2,6 @@ package com.example.influencify.ui.screens.main.bottom_menu
 
 import com.example.influencify.R
 import com.example.influencify.ui.screens.add_ad.data.AddScreenObject
-import com.example.influencify.ui.screens.profile.data.ProfileScreenObject
 
 sealed class BottomMenuItem(
     val route: Any,
@@ -15,10 +14,10 @@ sealed class BottomMenuItem(
         iconId = R.drawable.ic_home
     )
 
-    object Search : BottomMenuItem(
-        route = "search",
-        title = "Search",
-        iconId = R.drawable.ic_search
+    object Messages : BottomMenuItem(
+        route = "messages",
+        title = "Messages",
+        iconId = R.drawable.ic_messenge
     )
 
     object Add : BottomMenuItem(
@@ -34,7 +33,7 @@ sealed class BottomMenuItem(
     )
 
     object Favs : BottomMenuItem(
-        route = "favorites", // Placeholder route
+        route = "favorites",
         title = "Favorites",
         iconId = R.drawable.ic_favs
     )

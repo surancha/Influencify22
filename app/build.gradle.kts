@@ -45,6 +45,8 @@ android {
 
 dependencies {
 
+    implementation (libs.compose.ratingbar)
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)

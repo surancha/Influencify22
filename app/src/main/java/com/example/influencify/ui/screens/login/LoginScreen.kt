@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
@@ -118,9 +119,12 @@ fun LoginScreen(
                 )
             }
         )
-        Text(
-            text = "_______or______",
-            style = textTypography1.bodyLarge
+        Icon(
+            painter = painterResource(id = R.drawable.ic_or),
+            contentDescription = "Or",
+            modifier = Modifier
+                .height(100.dp)
+                .padding(10.dp),
         )
         Spacer(modifier = Modifier.height(10.dp))
 
