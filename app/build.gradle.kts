@@ -45,6 +45,8 @@ android {
 
 dependencies {
 
+    implementation (libs.androidx.datastore.preferences)
+
     implementation (libs.compose.ratingbar)
 
     implementation(platform(libs.firebase.bom))
