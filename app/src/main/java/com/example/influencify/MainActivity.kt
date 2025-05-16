@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = CategoriesScreenObject
+                startDestination = LoginScreenObject
             ) {
                 composable<LoginScreenObject> {
                     LoginScreen { navData ->
