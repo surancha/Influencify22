@@ -88,7 +88,7 @@ fun AdListItemUi(
                 Spacer(modifier = Modifier.height(5.dp))
 
                 Text(
-                    text = ad.description,
+                    text = ad.category,
                     color = Color.DarkGray,
                     fontSize = 16.sp,
                     maxLines = 3,
@@ -104,7 +104,7 @@ fun AdListItemUi(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                        text = ad.price + "$",
+                        text = ad.price + ad.currency,
                         color = Color.Black,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 20.sp,

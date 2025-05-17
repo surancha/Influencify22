@@ -6,11 +6,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Scaffold
@@ -49,6 +51,8 @@ fun AddAdScreen(
     navData: MainScreenDataObject
 ) {
     val selectedPlatform = remember { mutableStateOf("") }
+    val selectedCategory = remember { mutableStateOf("") }
+    val selectedCurrecy = remember { mutableStateOf("") }
     val title = remember { mutableStateOf("") }
     val description = remember { mutableStateOf("") }
     val urLink = remember { mutableStateOf("") }
@@ -67,9 +71,6 @@ fun AddAdScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            BottomMenu(navController = navController, navData = navData)
-        }
     ) { paddingValues ->
         Image(
             painter = painterResource(id = R.drawable.backgraund1),
@@ -106,9 +107,24 @@ fun AddAdScreen(
             )
 
             Spacer(modifier = Modifier.height(10.dp))
-            RoundedCornerDropDownMеnu { selectedItem ->
-                selectedPlatform.value = selectedItem
+            Row{
+                RoundedCornerDropDownMеnu { selectedItem ->
+                    selectedPlatform.value = selectedItem
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Catdropmenu{ selectedItem ->
+                    selectedCategory.value = selectedItem
+                }
+
             }
+//            RoundedCornerDropDownMеnu { selectedItem ->
+//                selectedPlatform.value = selectedItem
+//            }
+//            Spacer(modifier = Modifier.height(10.dp))
+//
+//            Catdropmenu{ selectedItem ->
+//                selectedCategory.value = selectedItem
+//            }
             Spacer(modifier = Modifier.height(10.dp))
 
             RoundedCornerTextField(
@@ -153,6 +169,11 @@ fun AddAdScreen(
             )
             Spacer(modifier = Modifier.height(10.dp))
 
+            PriceDropMenupackage { selectedItem ->
+                selectedCurrecy.value = selectedItem }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
             LoginButton(
                 text = "Select Image",
                 onClick = {
@@ -184,6 +205,8 @@ fun AddAdScreen(
                         price.value.toLongOrNull() == null -> errorMessage.value = "Price must be a valid number"
                         price.value.toLong() < 1 || price.value.toLong() > 10_000_000 -> errorMessage.value = "Price must be between 1 and 10,000,000"
                         selectedPlatform.value.isEmpty() -> errorMessage.value = "Please select a platform"
+                        selectedCategory.value.isEmpty() -> errorMessage.value = "Please select a Category"
+                        selectedCategory.value.isEmpty() -> errorMessage.value = "Please select a Category"
                         selectedImageUri.value == null -> errorMessage.value = "Please upload an image"
                         currentUserUid.isBlank() -> errorMessage.value = "User not authenticated"
                         else -> {
@@ -198,6 +221,8 @@ fun AddAdScreen(
                                     price = price.value,
                                     urLink = urLink.value,
                                     platform = selectedPlatform.value,
+                                    category = selectedCategory.value,
+                                    currency = selectedCurrecy.value,
                                     creatorUid = currentUserUid
                                 ),
                                 onSaved = {

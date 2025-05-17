@@ -2,6 +2,8 @@ package com.example.influencify.data
 
 data class Ad(
     val key: String = "",
+    val category: String = "",
+    val currency: String = "$",
     val title: String = "",
     val description: String = "",
     val price: String = "",

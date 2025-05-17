@@ -20,17 +20,22 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun RoundedCornerDropDownMеnu(
+fun Catdropmenu(
     onOptionSelected: (String) -> Unit
 ) {
     val expanded = remember { mutableStateOf( false) }
-    val selectedOption = remember { mutableStateOf("Platform") }
-    val platformList = listOf(
-        "Instagram",
-        "Tiktok",
-        "Telegram",
-        "Vk"
+    val selectedOption = remember { mutableStateOf("Category") }
+    val categoryList = listOf(
+        "Fashion",
+        "Tech",
+        "Beauty",
+        "Gaming",
+        "Fitness",
+        "Food",
+        "Travel",
+        "Lifestyle"
     )
+
     Box(
         modifier = Modifier
             .fillMaxWidth(0.4f)
@@ -52,7 +57,7 @@ fun RoundedCornerDropDownMеnu(
             onDismissRequest = {
                 expanded.value = false
             }) {
-            platformList.forEach{ option->
+            categoryList.forEach{ option->
                 DropdownMenuItem(text = {
                     Text(text = option)
                 }, onClick = {

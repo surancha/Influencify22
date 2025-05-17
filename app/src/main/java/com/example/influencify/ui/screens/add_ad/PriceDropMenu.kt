@@ -1,5 +1,6 @@
 package com.example.influencify.ui.screens.add_ad
 
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,17 +21,15 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun RoundedCornerDropDownMеnu(
+fun PriceDropMenupackage(
     onOptionSelected: (String) -> Unit
 ) {
     val expanded = remember { mutableStateOf( false) }
-    val selectedOption = remember { mutableStateOf("Platform") }
-    val platformList = listOf(
-        "Instagram",
-        "Tiktok",
-        "Telegram",
-        "Vk"
+    val selectedOption = remember { mutableStateOf("$") }
+    val currencyList = listOf(
+        "$","₽","֏"
     )
+
     Box(
         modifier = Modifier
             .fillMaxWidth(0.4f)
@@ -52,7 +51,7 @@ fun RoundedCornerDropDownMеnu(
             onDismissRequest = {
                 expanded.value = false
             }) {
-            platformList.forEach{ option->
+            currencyList.forEach{ option->
                 DropdownMenuItem(text = {
                     Text(text = option)
                 }, onClick = {
