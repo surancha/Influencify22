@@ -104,7 +104,7 @@ fun AdListItemUi(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f),
-                        text = ad.price + "$",
+                        text = ad.price + ad.currency,
                         color = Color.Black,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 20.sp,

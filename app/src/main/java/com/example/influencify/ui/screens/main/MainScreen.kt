@@ -51,6 +51,9 @@ fun MainScreen(
         }
     }
 
+
+
+
     LaunchedEffect(selectedPlatform.value, searchQuery.value) {
         filteredAdsListState.value = adsListState.value.filter { ad ->
             val matchesPlatform = selectedPlatform.value == "All" || ad.platform == selectedPlatform.value
@@ -134,13 +137,6 @@ fun MainScreen(
                                     } else {
                                         it
                                     }
-                                }
-                                filteredAdsListState.value = adsListState.value.filter { filteredAd ->
-                                    val matchesPlatform = selectedPlatform.value == "All" || filteredAd.platform == selectedPlatform.value
-                                    val matchesSearch = searchQuery.value.isEmpty() ||
-                                            filteredAd.title.contains(searchQuery.value, ignoreCase = true) ||
-                                            filteredAd.description.contains(searchQuery.value, ignoreCase = true)
-                                    matchesPlatform && matchesSearch
                                 }
                             }
                         )

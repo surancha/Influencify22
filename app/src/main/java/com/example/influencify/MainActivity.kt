@@ -11,6 +11,8 @@ import com.example.influencify.ui.screens.add_ad.AddAdScreen
 import com.example.influencify.ui.screens.add_ad.data.AddScreenObject
 import com.example.influencify.ui.screens.details.AdDetailScreen
 import com.example.influencify.ui.screens.favorites.FavoritesScreen
+import com.example.influencify.ui.screens.categories.CategoriesScreen
+import com.example.influencify.ui.screens.categories.data.CategoriesScreenObject
 import com.example.influencify.ui.screens.favorites.data.FavoritesScreenObject
 import com.example.influencify.ui.screens.login.LoginScreen
 import com.example.influencify.ui.screens.login.SignUpScreen
@@ -33,7 +35,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = LoginScreenObject
+                startDestination = CategoriesScreenObject
             ) {
                 composable<LoginScreenObject> {
                     LoginScreen { navData ->
@@ -81,6 +83,14 @@ class MainActivity : ComponentActivity() {
                     AdDetailScreen(
                         adKey = adKey,
                         navController = navController
+                    )
+                }
+                composable<CategoriesScreenObject> {
+                    CategoriesScreen(
+                        navController = navController,
+                        onCategorieSelected = { category ->
+                            println("Selected category: $category")
+                        }
                     )
                 }
             }

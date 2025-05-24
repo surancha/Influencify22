@@ -10,6 +10,8 @@ data class Ad(
     val imageUrl: String = "",
     val isFavorite: Boolean = false,
     val creatorUid: String = "",
+    val category: String = "",
+    val currency: String = "$",
     val averageRating: Float = 0f // Новое поле для среднего рейтинга
 )
 //package com.example.influencify.data
